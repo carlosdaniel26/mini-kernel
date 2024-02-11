@@ -4,8 +4,7 @@
  * 
  */
 
-
-#define WHITE_TXT 0x07 /* light gray on black text */
+#include "screen.c"
 
 void k_clear_screen();
 unsigned int k_printf(char *message, unsigned int line);
@@ -14,8 +13,6 @@ unsigned int k_printf(char *message, unsigned int line);
 void k_main() 
 {
 	k_clear_screen();
-	for (int i=0; i<=100; i++)
-	{
-		k_printf("Hello, world! Welcomedsadads to my kernel.", 0);
-	}
+	k_printf("Eae linha 1", 0);
+	k_printf("Eae linha 2", 1);
 };
