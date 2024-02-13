@@ -4,8 +4,8 @@
  * 
  */
 
-#include "screen.c"
-#include "keyboard.c"
+#include "drivers/screen.c"
+#include "drivers/keyboard.c"
 
 void k_clear_screen();
 unsigned int k_printf(char *message, unsigned int line);
