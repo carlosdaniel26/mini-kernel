@@ -1,1 +1,0 @@
-clear && nasm -f elf32 kernel.asm -o output/kasm.o && gcc -m32 -c kernel.c -o output/kc.o && ld -m elf_i386 -T link.ld -o output/kernel output/kasm.o output/kc.o
