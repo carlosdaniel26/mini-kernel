@@ -20,6 +20,5 @@ void kernel_main(void)
 	terminal_initialize();
 
 	/* Newline support is left as an exercise. */
-	terminal_writestring("NEWS!\n");
-	terminal_writestring("KalangOS is real!\n");
+	terminal_writestring("hi!\n");
 }
