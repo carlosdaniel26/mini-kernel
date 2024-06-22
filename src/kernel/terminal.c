@@ -24,7 +24,7 @@ void terminal_initialize(void)
 	terminal_initialize_background();
 }
 
-void terminal_initialize_background(void)
+void terminal_initialize_background(void)	
 {
 	for (size_t y = 0; y < VGA_HEIGHT; y++) {
 		for (size_t x = 0; x < VGA_WIDTH; x++) {

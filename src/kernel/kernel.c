@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include "terminal.h"
+#include "../include/stdio.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -21,4 +22,5 @@ void kernel_main(void)
 
 	/* Newline support is left as an exercise. */
 	terminal_writestring("hi!\n");
+
 }
