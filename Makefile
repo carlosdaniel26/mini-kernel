@@ -40,7 +40,8 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.s
 
 # Clean target
 clean:
-	rm -f $(BUILD_DIR)/*.o $(OUTPUT_BINARY)
+	find $(BUILD_DIR) -type f -name '*.o' -delete
+	rm -f $(OUTPUT_BINARY)
 
 # Run qemu emulator
 run:
