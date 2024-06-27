@@ -1,3 +1,4 @@
 /output/**/*.o
+.vscode/
 *.o
 *.bin
