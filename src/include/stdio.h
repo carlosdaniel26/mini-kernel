@@ -11,7 +11,7 @@ struct Stream {
     pfnStreamWriteBuf pfn_write_all;
 };
 
-static bool print(const char* data, size_t length);
+bool print(const char* data, size_t length);
 int printf(const char* __restrict, ...);
 int putchar(char character);
 int puts(const char*);
