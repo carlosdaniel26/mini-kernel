@@ -1,7 +1,7 @@
-#include "terminal.h"
+#include <kernel/terminal.h>
 
-#include "vga.h"
-#include "../include/string.h"
+#include <kernel/vga.h>
+#include <string.h>
 
 #define VGA_WIDTH  80
 #define VGA_HEIGHT 25

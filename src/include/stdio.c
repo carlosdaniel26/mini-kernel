@@ -2,9 +2,9 @@
 #include <stddef.h>
 #include <limits.h>
 
-#include "stdio.h"
-#include "string.h"
-#include "../kernel/terminal.h"
+#include <stdio.h>
+#include <string.h>
+#include <kernel/terminal.h>
 
 
 bool print(const char* data, size_t length) {

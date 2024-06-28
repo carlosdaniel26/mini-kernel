@@ -2,7 +2,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "terminal.h"
+#include <kernel/terminal.h>
+
 #include "../include/stdio.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */

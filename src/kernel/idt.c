@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-#include "idt.h"
+#include <kernel/idt.h>
 
 #define IDTBASE    0x00000000
 #define IDTSIZE    0xFF
