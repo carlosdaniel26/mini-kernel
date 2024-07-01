@@ -2,6 +2,7 @@
 CC = i686-elf-gcc
 AS = i686-elf-as
 LD = $(CC)
+ARCH = i686
 
 # Diretórios
 SRC_DIR = ./src
@@ -12,7 +13,7 @@ OUTPUT_BINARY = $(BUILD_DIR)/myos.bin
 BOOT_OBJ = $(BUILD_DIR)/boot.o
 
 # Compiler and linker flags
-CFLAGS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra -I$(SRC_DIR)/include
+CFLAGS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra -I$(SRC_DIR)/include -D$(ARCH)
 ASFLAGS =
 LDFLAGS = -T $(SRC_DIR)/linker/linker.ld -ffreestanding -O2 -nostdlib -lgcc
 
