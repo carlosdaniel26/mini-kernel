@@ -32,8 +32,8 @@ static inline void gdt_load()
                   mov %%ax, %%es; \
                   mov %%ax, %%fs; \
                   mov %%ax, %%gs; \
-                  ljmp $0x08, $next; \
-                  next:": : : "eax");
+                  ljmp $0x08, $next_label; \
+                  next_label:": : : "eax");
 }
 
 void init_gdt() 
