@@ -1,6 +1,7 @@
 #include <kernel/terminal.h>
-
 #include <kernel/vga.h>
+#include <kernel/utils/inx.h>
+
 #include <string.h>
 
 #define VGA_WIDTH  80
@@ -32,6 +33,11 @@ void terminal_initialize_background(void)
 			terminal_buffer[index] = vga_entry(' ', terminal_color_scheme);
 		}
 	}
+}
+
+void terminal_clean(void)
+{
+	terminal_initialize_background();
 }
 
 void terminal_initialize_buffer(void)
@@ -98,4 +104,10 @@ void terminal_write(const char* data, size_t size)
 void terminal_writestring(const char* data) 
 {
 	terminal_write(data, strlen(data));
+}
+
+void terminal_disable_cursor()
+{
+	outb(0x3D4, 0x0A);
+	outb(0x3D5, 0x20);
 }
