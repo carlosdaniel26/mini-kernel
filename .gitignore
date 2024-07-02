@@ -1,4 +1,4 @@
-/output/**/*.o
+build/
 .vscode/
 *.o
 *.bin

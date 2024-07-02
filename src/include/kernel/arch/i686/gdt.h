@@ -30,15 +30,15 @@ typedef struct gdt_entry_struct {
     uint8_t  access;
     uint8_t  granularity;
     uint8_t  base_high;
-} __attribute__((packed)) gdt_entry_t;
+} __attribute__((packed)) gdt_entry_struct;
 
 typedef struct gdt_ptr_struct {
     uint16_t limit;
     uint32_t base;
-} __attribute__((packed)) gdt_ptr_t;
+} __attribute__((packed)) gdt_ptr_struct;
 
 void init_gdt();
 void set_gdt_gate(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t granularity);
-extern void gdt_flush(uint32_t);
+void load_gdt();
 
 #endif
