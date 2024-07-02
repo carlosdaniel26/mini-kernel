@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include <kernel/terminal.h>
+#include <kernel/gdt.h>
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -18,6 +19,7 @@ void kernel_main(void)
 {
 	terminal_initialize();
 	terminal_disable_cursor();
+	init_gdt();
 
 	terminal_writestring("hi!\n");
 }
