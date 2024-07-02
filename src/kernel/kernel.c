@@ -17,5 +17,7 @@
 void kernel_main(void) 
 {
 	terminal_initialize();
+	terminal_disable_cursor();
+
 	terminal_writestring("hi!\n");
 }
