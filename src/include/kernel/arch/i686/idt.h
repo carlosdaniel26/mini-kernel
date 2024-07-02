@@ -17,6 +17,6 @@ typedef struct idt_ptr_struct {
 
 void init_idt(idt_ptr_struct* idt_ptr, idt_entry_struct idt_entry_1);
 void set_idt_desc(int n, uint32_t offset, uint16_t selector, uint8_t flags, idt_entry_struct* idt);
-extern void load_idt(uint32_t);
+extern void load_idt(idt_ptr_struct* idt_ptr);
 
 #endif

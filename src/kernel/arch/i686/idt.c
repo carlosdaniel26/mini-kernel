@@ -21,6 +21,16 @@ void init_idt(idt_ptr_struct* idt_ptr, idt_entry_struct idt_entry_1)
     idt_ptr->limit = sizeof(struct idt_entry_struct) * IDT_ENTRIES - 1;
     idt_ptr->base  = (uint32_t)&idt_entry_1;
 
-    load_idt((uint32_t)&idt_ptr);
+    load_idt(idt_ptr);
 
+}
+
+void load_idt(idt_ptr_struct* idt_ptr)
+{
+    asm volatile (
+        "lidt (%0)"
+        :
+        : "r" (idt_ptr)
+        : "memory"
+    );
 }
