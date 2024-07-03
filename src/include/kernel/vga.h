@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+#define VGA_WIDTH  80
+#define VGA_HEIGHT 25
+
 /* Hardware text mode color constants. */
 enum vga_color {
 	VGA_COLOR_BLACK = 0,
