@@ -9,8 +9,6 @@
 #include <kernel/drivers/keyboard.h>
 #include <kernel/utils/inx.h>
 
-#define IDTBASE    0x00000000
-#define IDTSIZE    0xFF
 #define IDT_ENTRIES 256
 
 idt_entry_struct idt[256];  // idt entries array
