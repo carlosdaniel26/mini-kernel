@@ -1,6 +1,6 @@
 # Define o prefixo do compilador cruzado
 CC = i686-elf-gcc
-AS = i686-elf-as
+AS = nasm
 LD = $(CC)
 ARCH = i686
 
@@ -14,7 +14,7 @@ BOOT_OBJ = $(BUILD_DIR)/boot.o
 
 # Compiler and linker flags
 CFLAGS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra -I$(SRC_DIR)/include -D$(ARCH)
-ASFLAGS =
+ASFLAGS = -felf32
 LDFLAGS = -T $(SRC_DIR)/linker/linker.ld -ffreestanding -O2 -nostdlib -lgcc
 
 # Encontra todos os arquivos fonte C recursivamente em SRC_DIR
