@@ -16,6 +16,10 @@ typedef struct idt_ptr_struct {
 } __attribute__((packed)) idt_ptr_struct;
 
 void init_idt(void);
-void set_idt_desc(uint8_t vector, void* isr, uint8_t flags);
 
+__attribute__((noreturn))
+void set_idt_descriptor(uint8_t vector, void (*isr)(), uint8_t flags);
+
+__attribute__((noreturn))
+void init_irq();
 #endif

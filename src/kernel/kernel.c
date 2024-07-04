@@ -4,6 +4,8 @@
 
 #include <kernel/terminal.h>
 #include <kernel/gdt.h>
+#include <kernel/idt.h>
+#include <kernel/drivers/keyboard.h>
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -19,7 +21,12 @@ void kernel_main(void)
 {
 	terminal_initialize();
 	terminal_disable_cursor();
+	terminal_writestring("initializing GDT...!\n");
 	init_gdt();
+	terminal_writestring("initializing IDT...!\n");
+	init_idt();
+	terminal_writestring("initializing IRQs...!\n");
+	init_irq();
 
 	terminal_writestring("hi!\n");
 }

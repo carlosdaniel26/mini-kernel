@@ -1,4 +1,3 @@
-__attribute__((noreturn))
 void exception_handler()
 {
 	// Completely hangs the computer
