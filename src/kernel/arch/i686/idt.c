@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdbool.h>
 
 #include <kernel/idt.h>
 
@@ -6,31 +7,37 @@
 #define IDTSIZE    0xFF
 #define IDT_ENTRIES 256
 
-void set_idt_desc(int n, uint32_t offset, uint16_t selector, uint8_t flags, idt_entry_struct* idt)
+__attribute__((aligned(0x10)));    // aligned for performance
+static idt_entry_struct idt[256];  // idt entries array
+static idt_ptr_struct idt_ptr;
+
+static bool vectors[IDT_ENTRIES];
+extern void* isr_stub_table[];
+
+void set_idt_desc(uint8_t vector, void* isr, uint8_t flags)
 {
-    idt[n].base_low = (offset & 0xFFFF);
-    idt[n].base_high = (offset << 16);
-    idt[n].selector = selector;
-    idt[n].always0 = 0;
-    idt[n].flags = flags;
-    idt[n].base_high = (offset >> 16) & 0xFFFF;
+    idt_entry_struct* descriptor = &idt[vector];
+
+    descriptor->base_low  = (uint32_t)isr & 0xFFFF; // Get just the first 16 bits
+    descriptor->selector  = 0x08;
+    descriptor->flags     = flags;
+    descriptor->base_high = (uint32_t)isr >> 16;
+    descriptor->always0   = 0;
+
 }
 
-void init_idt(idt_ptr_struct* idt_ptr, idt_entry_struct idt_entry_1)
+void init_idt(void)
 {
-    idt_ptr->limit = sizeof(struct idt_entry_struct) * IDT_ENTRIES - 1;
-    idt_ptr->base  = (uint32_t)&idt_entry_1;
+    idt_ptr.base  = (uint32_t)&idt[0];
+    idt_ptr.limit = sizeof(idt_entry_struct) * IDT_ENTRIES - 1;
 
-    load_idt(idt_ptr);
+    for (uint8_t vector = 0; vector < 32; vector++)
+    {
+        set_idt_desc(vector, isr_stub_table[vector], 0x8E); // 0x8E = interrupt gate
+        vectors[vector] = true;
+    }
 
-}
+    __asm__ volatile ("lidt %0" : : "m"(idt_ptr)); // load new idt
+    __asm__ volatile ("sti"); // set the interrupt flag
 
-void load_idt(idt_ptr_struct* idt_ptr)
-{
-    asm volatile (
-        "lidt (%0)"
-        :
-        : "r" (idt_ptr)
-        : "memory"
-    );
 }
