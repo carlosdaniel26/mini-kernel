@@ -54,7 +54,16 @@ clean:
 	rm -rf $(BUILD_DIR)
 	rm -f $(OUTPUT_BINARY)
 
+dev:
+	$(MAKE) clean
+	$(MAKE)
+	$(MAKE) run
+
+
+
 # Alvo para executar o emulador QEMU
+run-debug:
+	qemu-system-i386 -kernel $(OUTPUT_BINARY)
 run:
 	qemu-system-i386 -kernel $(OUTPUT_BINARY)
 
