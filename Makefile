@@ -13,9 +13,9 @@ OUTPUT_BINARY = $(BUILD_DIR)/myos.bin
 BOOT_OBJ = $(BUILD_DIR)/boot.o
 
 # Compiler and linker flags
-CFLAGS = -std=gnu99 -ffreestanding -O2 -Wall -Wextra -I$(SRC_DIR)/include -D$(ARCH)
+CFLAGS = -std=gnu99 -ffreestanding -Wall -Wextra -I$(SRC_DIR)/include -D$(ARCH)
 ASFLAGS = -felf32
-LDFLAGS = -T $(SRC_DIR)/linker/linker.ld -ffreestanding -O2 -nostdlib -lgcc
+LDFLAGS = -T $(SRC_DIR)/linker/linker.ld -ffreestanding -nostdlib -lgcc
 
 # Encontra todos os arquivos fonte C recursivamente em SRC_DIR
 ALL_C_SOURCES := $(shell find $(SRC_DIR) -type f -name '*.c')
@@ -48,6 +48,7 @@ build:
 	mkdir -p $(BUILD_DIR)
 	@for dir in $(ALL_C_DIRS); do mkdir -p $(BUILD_DIR)/$$dir; done
 	@for dir in $(ALL_ASM_DIRS); do mkdir -p $(BUILD_DIR)/$$dir; done
+	touch $(BUILD_DIR)/log.txt
 
 # Alvo de limpeza
 clean:
@@ -57,13 +58,13 @@ clean:
 dev:
 	$(MAKE) clean
 	$(MAKE)
-	$(MAKE) run
+	$(MAKE) run-debug
 
 
 
 # Alvo para executar o emulador QEMU
 run-debug:
-	qemu-system-i386 -kernel $(OUTPUT_BINARY)
+	qemu-system-i386 -d int -no-reboot -kernel $(OUTPUT_BINARY)
 run:
 	qemu-system-i386 -kernel $(OUTPUT_BINARY)
 
