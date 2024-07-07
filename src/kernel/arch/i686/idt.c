@@ -18,7 +18,9 @@ idt_ptr_struct ptr_idt;
 bool vectors[IDT_ENTRIES];
 
 // ISR stub table definition
-void (*isr_stub_table[34])();
+void (*isr_stub_table[34])() = {
+    NULL
+};
 
 void set_idt_descriptor(uint8_t vector, void (*isr)(), uint8_t flags)
 {
@@ -72,10 +74,6 @@ void init_idt(void)
 {
     ptr_idt.base  = (uint32_t)&idt[0];
     ptr_idt.limit = sizeof(idt_entry_struct) * IDT_ENTRIES - 1;
-
-    for (int i = 0; i < 34; i++) {
-        isr_stub_table[i] = NULL;
-    }
 
     isr_stub_table[0] = isr_stub_divide_by_zero;
     isr_stub_table[6] = isr_stub_invalid_opcode;
