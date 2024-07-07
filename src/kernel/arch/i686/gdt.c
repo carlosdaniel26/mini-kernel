@@ -14,21 +14,20 @@ void set_gdt_gate(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_
 
     // Set the limit
     gdt_entry[num].limit_low   = (limit & 0xFFFF);
-    gdt_entry[num].limit_high = ((limit >> 16) & 0x0F);
-
-    gdt_entry[num].limit_high |= (granularity & 0xF0);
+    gdt_entry[num].granularity = ((limit >> 16) & 0x0F);
+    gdt_entry[num].granularity |= (granularity & 0xF0);
     gdt_entry[num].access      = access;
 }
 
 static inline void gdt_load() 
 {
-    gdt_ptr.limit = (sizeof(gdt_entry) * 5) - 1;
+    gdt_ptr.limit = (sizeof(gdt_entry_struct) * 5) - 1;
     gdt_ptr.base = (uint32_t)&gdt_entry;
 
 
 
     // Load the GDT
-    asm volatile("lgdt (%0)" : : "m"(gdt_ptr));
+    asm volatile("lgdt %0" : : "m"(gdt_ptr));
     asm volatile("mov $0x10, %%ax; \
                   mov %%ax, %%ds; \
                   mov %%ax, %%es; \
@@ -37,8 +36,8 @@ static inline void gdt_load()
                   ljmp $0x08, $next; \
                   next:": : : "eax");
 
-    // just a workaround to debug the code
-    while(1){}
+    // just a 
+   
 }
 
 void init_gdt()
