@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <string.h>
 
 #include <kernel/idt.h>
 #include <kernel/terminal.h>
@@ -73,7 +74,10 @@ void init_idt(void)
     ptr_idt.base  = (uint32_t)&idt[0];
     ptr_idt.limit = sizeof(idt_entry_struct) * IDT_ENTRIES - 1;
 
-    terminal_writestring("0\n");
+    memset(&idt, 0, sizeof(idt_entry_struct) * 256);
+    terminal_writestring("setou");
+    while(1){}
+
     set_idt_descriptor(0, isr_divide_by_zero, 0x8E);
     set_idt_descriptor(6, isr_invalid_opcode, 0x8E);
     set_idt_descriptor(14, isr_page_fault, 0x8E);

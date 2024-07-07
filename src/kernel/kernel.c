@@ -26,7 +26,7 @@ void kernel_main(void)
 	terminal_writestring("initializing IDT...!\n");
 	init_idt();
 	terminal_writestring("initializing IRQs...!\n");
-	init_irq();
+	// init_irq();
 
 	terminal_writestring("hi!\n");
 }
