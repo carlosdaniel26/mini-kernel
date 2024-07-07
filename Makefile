@@ -63,7 +63,7 @@ dev:
 
 # Alvo para executar o emulador QEMU
 run-debug:
-	qemu-system-i386 -kernel $(OUTPUT_BINARY)
+	qemu-system-i386 -kernel $(OUTPUT_BINARY) -no-reboot -d int
 run:
 	qemu-system-i386 -kernel $(OUTPUT_BINARY)
 
