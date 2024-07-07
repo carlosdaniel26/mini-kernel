@@ -57,7 +57,7 @@ clean:
 dev:
 	$(MAKE) clean
 	$(MAKE)
-	$(MAKE) run
+	$(MAKE) run-debug
 
 
 
