@@ -16,14 +16,16 @@ BOOT_OBJ = $(BUILD_DIR)/boot.o
 # Compiler and linker flags
 CFLAGS = -std=gnu99 -ffreestanding -Wall -Wextra -I$(INCLUDE_DIR) -D$(ARCH)
 ASFLAGS = -felf32
-LDFLAGS = -T $(SRC_DIR)/linker/linker.ld -ffreestanding -O2 -nostdlib -lgcc
+LDFLAGS = -T $(SRC_DIR)/linker/linker.ld -ffreestanding -O2 -nostdlib
 
-# Encontra todos os arquivos fonte C recursivamente em SRC_DIR
-ALL_C_SOURCES := $(shell find $(SRC_DIR) -type f -name '*.c')
+# Encontra todos os arquivos fonte C recursivamente em SRC_DIR e INCLUDE_DIR
+ALL_C_SOURCES := $(shell find $(SRC_DIR) $(INCLUDE_DIR) -type f -name '*.c')
 ALL_ASM_SOURCES := $(shell find $(SRC_DIR) -type f -name '*.s')
 ALL_C_DIRS := $(sort $(dir $(ALL_C_SOURCES)))
 ALL_ASM_DIRS := $(sort $(dir $(ALL_ASM_SOURCES)))
-ALL_OBJ := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(ALL_C_SOURCES)) $(patsubst $(SRC_DIR)/%.s,$(BUILD_DIR)/%.o,$(ALL_ASM_SOURCES))
+ALL_OBJ := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(filter-out $(INCLUDE_DIR)/%,$(ALL_C_SOURCES))) \
+           $(patsubst $(INCLUDE_DIR)/%.c,$(BUILD_DIR)/%.o,$(filter $(INCLUDE_DIR)/%,$(ALL_C_SOURCES))) \
+           $(patsubst $(SRC_DIR)/%.s,$(BUILD_DIR)/%.o,$(ALL_ASM_SOURCES))
 
 # Alvo principal
 all: build $(OUTPUT_BINARY)
@@ -36,6 +38,11 @@ $(BOOT_OBJ): $(SRC_DIR)/boot.s
 
 # Compila cada arquivo .c encontrado sob SRC_DIR recursivamente para arquivos .o em BUILD_DIR
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Compila cada arquivo .c encontrado sob INCLUDE_DIR recursivamente para arquivos .o em BUILD_DIR
+$(BUILD_DIR)/%.o: $(INCLUDE_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -59,8 +66,6 @@ dev:
 	$(MAKE) clean
 	$(MAKE)
 	$(MAKE) run-debug
-
-
 
 # Alvo para executar o emulador QEMU
 run-debug:
