@@ -1,4 +1,4 @@
-#include <kernel/utils/inx.h>
+#include <kernel/utils/io.h>
 #include <kernel/terminal.h>
 
 unsigned char convertScancode(unsigned char scancode) 

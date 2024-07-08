@@ -8,7 +8,7 @@
 #include <kernel/vga.h>
 #include <kernel/pic.h>
 #include <kernel/drivers/keyboard.h>
-#include <kernel/utils/inx.h>
+#include <kernel/utils/io.h>
 
 #define IDT_ENTRIES 256
 

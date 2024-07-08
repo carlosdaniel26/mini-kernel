@@ -1,6 +1,6 @@
 #include <kernel/terminal.h>
 #include <kernel/vga.h>
-#include <kernel/utils/inx.h>
+#include <kernel/utils/io.h>
 
 #include <string.h>
 
