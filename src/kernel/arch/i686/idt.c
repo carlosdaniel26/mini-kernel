@@ -99,8 +99,8 @@ void init_idt(void)
 void init_irq() 
 {
     PIC_remap();
-    set_idt_descriptor(33, isr_keyboard, 0x8E); // Map IRQ 1 (keyboard) to vector 33
-    outb(0x21, ~(1 << 1)); // Unmask IRQ 1 (keyboard)
+    set_idt_descriptor(33, isr_keyboard, 0x8E);
+    outb(0x21, ~(1 << 1));
     __asm__("sti");
 }
 

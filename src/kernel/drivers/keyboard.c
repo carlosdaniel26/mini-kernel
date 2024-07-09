@@ -19,14 +19,12 @@ static const unsigned char convertScancode[] = {
 // ISR do teclado
 void isr_keyboard() 
 {
-	terminal_writestring("ISR do teclado chamado\n");
-   uint8_t scancode = inb(0x60); // Ler o scancode do teclado
+	terminal_writestring("ISR keyboard called\n");
+   uint8_t scancode = inb(0x60);
 
-   // Verificar se o scancode está dentro dos limites do array de tradução
    if (scancode < sizeof(convertScancode)) {
         unsigned char character = convertScancode[scancode];
 
-        // Exemplo de saída para o terminal (substitua conforme necessário)
         if (character != 0) {
             char str[2] = {character, '\0'};
             terminal_writestring(str);
