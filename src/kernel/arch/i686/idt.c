@@ -6,7 +6,6 @@
 #include <kernel/idt.h>
 #include <kernel/terminal.h>
 #include <kernel/vga.h>
-#include <kernel/pic.h>
 #include <kernel/drivers/keyboard.h>
 #include <kernel/utils/io.h>
 
@@ -72,12 +71,15 @@ void isr_stub_page_fault() {
 
 void init_idt(void)
 {
+    PIC_remap();
+    
     ptr_idt.base  = (uint32_t)&idt[0];
     ptr_idt.limit = sizeof(idt_entry_struct) * IDT_ENTRIES - 1;
 
     isr_stub_table[0] = isr_stub_divide_by_zero;
     isr_stub_table[6] = isr_stub_invalid_opcode;
     isr_stub_table[14] = isr_stub_page_fault;
+    isr_stub_table[14] = isr_keyboard;
 
     set_idt_descriptor(0, isr_stub_table[0], 0x8E);
     set_idt_descriptor(6, isr_stub_table[6], 0x8E);
@@ -96,8 +98,32 @@ void init_idt(void)
 
 void init_irq() 
 {
-    // PIC_remap();
-    // set_idt_descriptor(33, isr_keyboard, 0x8E); // Map IRQ 1 (keyboard) to vector 33
-    // outb(0x21, ~(1 << 1)); // Unmask IRQ 1 (keyboard)
-    // __asm__("sti");
+    PIC_remap();
+    set_idt_descriptor(33, isr_keyboard, 0x8E); // Map IRQ 1 (keyboard) to vector 33
+    outb(0x21, ~(1 << 1)); // Unmask IRQ 1 (keyboard)
+    __asm__("sti");
+}
+
+void PIC_remap() 
+{
+    // ICW1: Start initialization of PIC
+    outb(0x20, 0x11); // Master PIC
+    outb(0xA0, 0x11); // Slave PIC
+
+    // ICW2: Set interrupt vector offsets
+    outb(0x21, 0x20); // Master PIC vector offset
+    outb(0xA1, 0x28); // Slave PIC vector offset
+
+    // ICW3: Tell Master PIC there is a slave PIC at IRQ2 (0000 0100)
+    outb(0x21, 0x04);
+    // Tell Slave PIC its cascade identity (0000 0010)
+    outb(0xA1, 0x02);
+
+    // ICW4: Set PIC to x86 mode
+    outb(0x21, 0x01);
+    outb(0xA1, 0x01);
+
+    // Mask interrupts on both PICs
+    outb(0x21, 0xFF);
+    outb(0xA1, 0xFF);
 }

@@ -1,42 +1,37 @@
 #include <kernel/utils/io.h>
 #include <kernel/terminal.h>
 
-unsigned char convertScancode(unsigned char scancode) 
+static const unsigned char convertScancode[] = {
+     0,    0,    '1',  '2',  '3',  '4',  '5',  '6',  '7',  '8',  '9',  '0',
+     '-',  '=',  0,    0x09, 'q',  'w',  'e',  'r',  't',  'y',  'u',  'i',
+     'o',  'p',  '[',  ']',  '\n', 0,    'a',  's',  'd',  'f',  'g',  'h',
+     'j',  'k',  'l',  ';',  '\'', '`',  0,    '\\', 'z',  'x',  'c',  'v',
+     'b',  'n',  'm',  ',',  '.',  '/',  0,    '*',  0,    ' ',  0,    0,
+     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+     0,    0,    0,    0,    0,    0,    0,    0,    0x1B, 0,    0,    0,
+     0,    0,    0,    0,    0,    0,    0,    0x0E, 0x1C, 0,    0,    0,
+     0,    0,    0,    0,    0,    '/',  0,    0,    0,    0,    0,    0,
+     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+     0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0,
+     0,    0,    0,    0,    0,    0,    0,    0x2C
+};
+
+// ISR do teclado
+void isr_keyboard() 
 {
-   char characterTable[] = {
-    0,    0,    '1',  '2',  '3',  '4',  '5',  '6',  '7',  '8',  '9',  '0',
-    '-',  '=',  0,    0x09, 'q',  'w',  'e',  'r',  't',  'y',  'u',  'i',
-    'o',  'p',  '[',  ']',  0,    0,    'a',  's',  'd',  'f',  'g',  'h',
-    'j',  'k',  'l',  ';',  '\'', '`',  0,    '\\', 'z',  'x',  'c',  'v',
-    'b',  'n',  'm',  ',',  '.',  '/',  0,    '*',  0,    ' ',  0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,    0x1B, 0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0x0E, 0x1C, 0,    0,    0,
-    0,    0,    0,    0,    0,    '/',  0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0,
-    0,    0,    0,    0,    0,    0,    0,    0x2C
-    };
+	terminal_writestring("ISR do teclado chamado\n");
+   uint8_t scancode = inb(0x60); // Ler o scancode do teclado
 
-    return characterTable[scancode];
-}
+   // Verificar se o scancode está dentro dos limites do array de tradução
+   if (scancode < sizeof(convertScancode)) {
+        unsigned char character = convertScancode[scancode];
 
+        // Exemplo de saída para o terminal (substitua conforme necessário)
+        if (character != 0) {
+            char str[2] = {character, '\0'};
+            terminal_writestring(str);
+        }
+   }
 
-void isr_keyboard()
-{
-	unsigned char status = inb(0x64);
-	if (status & 0x01) // check if the least significant bit (bit 0) is set, indicating data is available
-	{
-		unsigned char scan_code = inb(0x60); // Read the scan code from keyboard controller
-		// check if it's a key pressed event (high bit not set)
-		if (!(scan_code & 0x80))
-		{
-			// Handle the key press event
-			char combined = convertScancode(scan_code);
-			if (combined != '\0')
-			{
-				terminal_putchar(combined);
-			}
-		}
-	}
+   outb(0x20, 0x20); // Enviar End of Interrupt (EOI) ao PIC
 }

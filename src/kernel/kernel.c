@@ -6,6 +6,7 @@
 #include <kernel/gdt.h>
 #include <kernel/idt.h>
 #include <kernel/drivers/keyboard.h>
+#include <kernel/utils/io.h>
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -26,7 +27,6 @@ void kernel_main(void)
 	terminal_writestring("initializing IDT...!\n");
 	init_idt();
 	terminal_writestring("initializing IRQs...!\n");
-	// init_irq();
-
+	init_irq();
 	terminal_writestring("Ready!\n");
 }
