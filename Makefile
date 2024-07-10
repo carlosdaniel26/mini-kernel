@@ -14,7 +14,7 @@ OUTPUT_BINARY = $(BUILD_DIR)/myos.bin
 BOOT_OBJ = $(BUILD_DIR)/boot.o
 
 # Compiler and linker flags
-CFLAGS = -std=gnu99 -ffreestanding -Wall -Wextra -I$(INCLUDE_DIR) -D$(ARCH)
+CFLAGS = -g -std=gnu99 -ffreestanding -Wall -Wextra -I$(INCLUDE_DIR) -D$(ARCH)
 ASFLAGS = -felf32
 LDFLAGS = -T $(SRC_DIR)/linker/linker.ld -ffreestanding -O2 -nostdlib
 
@@ -69,7 +69,7 @@ dev:
 
 # Alvo para executar o emulador QEMU
 run-debug:
-	qemu-system-i386 -kernel $(OUTPUT_BINARY) -no-reboot -d int
+	qemu-system-i386 -kernel $(OUTPUT_BINARY) -no-reboot -d int -s -S
 run:
 	qemu-system-i386 -kernel $(OUTPUT_BINARY)
 

@@ -29,4 +29,9 @@ void kernel_main(void)
 	terminal_writestring("initializing IRQs...!\n");
 	init_irq();
 	terminal_writestring("Ready!\n");
+
+	while(1)
+	{
+		
+	}
 }

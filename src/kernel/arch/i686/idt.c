@@ -94,6 +94,7 @@ void init_idt(void)
             vectors[vector] = true;
         }
     }
+
 }
 
 void init_irq() 

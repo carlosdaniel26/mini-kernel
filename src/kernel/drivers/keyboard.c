@@ -19,7 +19,6 @@ static const unsigned char convertScancode[] = {
 // ISR do teclado
 void isr_keyboard() 
 {
-	terminal_writestring("ISR keyboard called\n");
    uint8_t scancode = inb(0x60);
 
    if (scancode < sizeof(convertScancode)) {
@@ -31,5 +30,6 @@ void isr_keyboard()
         }
    }
 
-   outb(0x20, 0x20); // Enviar End of Interrupt (EOI) ao PIC
+   outb(0x20, 0x20);
+   __asm__("sti");
 }
