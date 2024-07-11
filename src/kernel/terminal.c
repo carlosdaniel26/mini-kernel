@@ -15,11 +15,32 @@ void terminal_initialize(void)
 {
 	terminal_row = 0;
 	terminal_column = 0;
-	terminal_set_background_color(VGA_COLOR_BLUE);
+	terminal_set_background_color(VGA_COLOR_BLACK);
 	terminal_setcolor(VGA_COLOR_WHITE);
 
 	terminal_initialize_buffer();
 	terminal_initialize_background();
+
+}
+
+void terminal_set_column(int index)
+{
+	terminal_column = index;
+}
+
+void terminal_set_row(int index)
+{
+	terminal_row = index;
+}
+
+int terminal_get_column()
+{
+	return terminal_column;
+}
+
+int terminal_get_row()
+{
+	return terminal_row;
 }
 
 void terminal_initialize_background(void)	
@@ -73,6 +94,7 @@ void terminal_putchar(char c)
 		if (++terminal_row == VGA_HEIGHT)
 			terminal_row = 0;
 	}
+	terminal_update_cursor();
 }
 
 void terminal_breakline(void)
@@ -107,4 +129,24 @@ void terminal_disable_cursor()
 {
 	outb(0x3D4, 0x0A);
 	outb(0x3D5, 0x20);
+}
+
+void terminal_enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
+{
+	outb(0x3D4, 0x0A);
+	outb(0x3D5, (inb(0x3D5) & 0xC0) | cursor_start);
+
+	outb(0x3D4, 0x0B);
+	outb(0x3D5, (inb(0x3D5) & 0xE0) | cursor_end);
+}
+
+
+void terminal_update_cursor()
+{
+	uint16_t pos = terminal_row * VGA_WIDTH + terminal_column;
+
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8_t) (pos & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }

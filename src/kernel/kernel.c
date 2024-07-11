@@ -7,6 +7,7 @@
 #include <kernel/idt.h>
 #include <kernel/drivers/keyboard.h>
 #include <kernel/utils/io.h>
+#include <kernel/shit-shell/ss.h>
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -18,10 +19,9 @@
 	#error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
 
-void kernel_main(void) 
+int kernel_main(void) 
 {
 	terminal_initialize();
-	terminal_disable_cursor();
 	terminal_writestring("initializing GDT...!\n");
 	init_gdt();
 	terminal_writestring("initializing IDT...!\n");
@@ -30,8 +30,8 @@ void kernel_main(void)
 	init_irq();
 	terminal_writestring("Ready!\n");
 
-	while(1)
-	{
-		
-	}
+	shit_shell_init();
+
+	return 1;
+	
 }

@@ -65,6 +65,10 @@ clean:
 dev:
 	$(MAKE) clean
 	$(MAKE)
+	$(MAKE) run
+debug:
+	$(MAKE) clean
+	$(MAKE)
 	$(MAKE) run-debug
 
 # Alvo para executar o emulador QEMU

@@ -1,5 +1,6 @@
 #include <kernel/utils/io.h>
 #include <kernel/terminal.h>
+#include <kernel/shit-shell/ss.h>
 
 static const unsigned char convertScancode[] = {
      0,    0,    '1',  '2',  '3',  '4',  '5',  '6',  '7',  '8',  '9',  '0',
@@ -19,15 +20,14 @@ static const unsigned char convertScancode[] = {
 // ISR do teclado
 void isr_keyboard() 
 {
-   uint8_t scancode = inb(0x60);
 
-   if (scancode < sizeof(convertScancode)) {
+    uint8_t scancode = inb(0x60);
+
+    if (scancode < sizeof(convertScancode)) 
+    {
         unsigned char character = convertScancode[scancode];
 
-        if (character != 0) {
-            char str[2] = {character, '\0'};
-            terminal_writestring(str);
-        }
+        handler_input_shell(character);
    }
 
    outb(0x20, 0x20);
