@@ -1,5 +1,5 @@
 void exception_handler()
 {
-	// Completely hangs the computer
+	// clear interrupts; stop cpu.
 	__asm__ volatile ("cli; hlt");
 }

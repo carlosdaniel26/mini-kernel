@@ -2,20 +2,26 @@
 
 uint8_t inb(uint16_t port) 
 {
-    uint8_t ret; // return value
+    uint8_t return_value;
 
-    // Start of inline assembly statement
-    __asm__ volatile ( "inb %w1, %b0"  // Assembly instruction to read a byte from the specified port
-                   : "=a"(ret)         // "=a" specifies that register 'eax' will hold the return value
-                   : "Nd"(port)        // "Nd" specifies that 'port' is an I/O port number
-                   : "memory");        // Informs the compiler that the instruction can access memory
+    __asm__ volatile (
+    "inb %w1, %b0"  // Read a byte from the specified I/O port
+                   : "=a"(return_value)	// "=a" indicates that the returned value will be stored in the 'eax' register
+                   : "Nd"(port)			// "Nd" indicates that 'port' is an I/O port number that can be read as an integer
+                   : "memory");			// Informs the compiler that this instruction may access memory, preventing optimizations that could overlook this interaction
 
-    return ret;  // Returns the value read from the input/output port
+    return return_value;
 }
 
-void outb(uint16_t port, uint8_t val) 
+void outb(uint16_t port, uint8_t value) 
 {
-    __asm__ volatile ( "outb %b0, %w1" : : "a"(val), "Nd"(port) : "memory");
+    __asm__ volatile (
+        "outb %b0, %w1"  // Write a byte to the specified I/O port
+                        :                  // No output operands
+                        : "a"(value),        // Input operand: 'val' is loaded into the 'eax' register
+                          "Nd"(port)       // Input operand: 'port' is an I/O port number that can be used as an integer
+                        : "memory"         // Informs the compiler that this instruction may modify memory, preventing certain optimizations
+    );
 }
 
 void io_wait(void)

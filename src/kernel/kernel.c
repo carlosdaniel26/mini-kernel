@@ -32,6 +32,8 @@ int kernel_main(void)
 
 	shit_shell_init();
 
+	while(1) {}
+		
 	return 1;
 	
 }

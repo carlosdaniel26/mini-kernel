@@ -1,5 +1,6 @@
 #include <kernel/terminal.h>
 #include <kernel/vga.h>
+#include <kernel/utils/io.h>
 
 #define ASCII_SPACE 32
 
@@ -15,10 +16,6 @@ void shit_shell_init()
 	terminal_set_row(0);
 	terminal_writestring("root: ");
 	terminal_update_cursor();
-	while(1)
-	{
-		
-	}
 }
 
 void shit_shell_backspace()
