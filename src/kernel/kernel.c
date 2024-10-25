@@ -31,9 +31,10 @@ int kernel_main(void)
 	terminal_writestring("Ready!\n");
 
 	shit_shell_init();
+	print_prompt();
 
 	while(1) {}
-		
+
 	return 1;
 	
 }

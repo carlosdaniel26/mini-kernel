@@ -14,8 +14,6 @@ void shit_shell_init()
 	terminal_initialize_background();
 	terminal_set_column(0);
 	terminal_set_row(0);
-	terminal_writestring("root: ");
-	terminal_update_cursor();
 }
 
 void shit_shell_backspace()
