@@ -2,6 +2,12 @@
 #include <kernel/terminal.h>
 #include <kernel/shit-shell/ss.h>
 
+/*
+ * The array is based on the PS/2 Scan Codes 
+ *
+ * https://techdocs.altium.com/display/FPGA/PS2+Keyboard+Scan+Codes
+ *
+ */
 static const unsigned char convertScancode[] = {
      0,    0,    '1',  '2',  '3',  '4',  '5',  '6',  '7',  '8',  '9',  '0',
      '-',  '=',  0,    0x09, 'q',  'w',  'e',  'r',  't',  'y',  'u',  'i',
@@ -17,19 +23,17 @@ static const unsigned char convertScancode[] = {
      0,    0,    0,    0,    0,    0,    0,    0x2C
 };
 
-// ISR do teclado
 void isr_keyboard() 
 {
+     uint8_t scancode = inb(0x60);
 
-    uint8_t scancode = inb(0x60);
+     if (scancode < sizeof(convertScancode)) 
+     {
+          unsigned char character = convertScancode[scancode];
 
-    if (scancode < sizeof(convertScancode)) 
-    {
-        unsigned char character = convertScancode[scancode];
+          handler_input_shell(character);
+     }
 
-        handler_input_shell(character);
-   }
-
-   outb(0x20, 0x20);
-   __asm__("sti");
+     outb(0x20, 0x20);
+     __asm__("sti");
 }
