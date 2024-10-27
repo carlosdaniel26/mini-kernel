@@ -18,19 +18,19 @@ void shit_shell_init()
 
 void shit_shell_backspace()
 {
-	int terminal_row = terminal_get_row();
+	int terminal_column = terminal_get_column();
 
-	if (terminal_row >= 6)
+	if (terminal_column >= 6)
 	{
 		terminal_putentryat(' ', VGA_COLOR_WHITE, terminal_get_row()-1, terminal_get_column()-1);
-		terminal_set_row(terminal_row -= 1); 
+		terminal_set_column(terminal_column -= 1); 
 		terminal_update_cursor();
 	}
 }
 
 void handler_input_shell(char key)
 {
-	if (key == 0)
+	if (key == 66)
 	{
 		shit_shell_backspace();
 	}
