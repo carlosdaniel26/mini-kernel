@@ -24,21 +24,11 @@ ALL_C_DIRS := $(sort $(dir $(ALL_C_SOURCES)))
 ALL_ASM_DIRS := $(sort $(dir $(ALL_ASM_SOURCES)))
 
 # Get All the OBJ target path based on the sources
-ALL_OBJ := 	$(patsubst 
-				$(SRC_DIR)/%.c, 
-				$(BUILD_DIR)/%.o,
-				$(filter-out $(INCLUDE_DIR)/%,
-				$(ALL_C_SOURCES))) \
-
-
-           	$(patsubst $(INCLUDE_DIR)/%.c,
-				$(BUILD_DIR)/%.o,
-				$(filter $(INCLUDE_DIR)/%,
-				$(ALL_C_SOURCES))) \
-
-
-           	$(patsubst $(SRC_DIR)/%.s,
-				$(BUILD_DIR)/%.o,
+ALL_OBJ := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, \
+				$(filter-out $(INCLUDE_DIR)/%, $(ALL_C_SOURCES))) \
+			$(patsubst $(INCLUDE_DIR)/%.c, $(BUILD_DIR)/%.o, \
+				$(filter $(INCLUDE_DIR)/%, $(ALL_C_SOURCES))) \
+			$(patsubst $(SRC_DIR)/%.s, $(BUILD_DIR)/%.o, \
 				$(ALL_ASM_SOURCES))
 
 # Main target
