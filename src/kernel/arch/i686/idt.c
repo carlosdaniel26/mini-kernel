@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <string.h>
+#include <alias.h>
 
 #include <kernel/idt.h>
 #include <kernel/terminal.h>
