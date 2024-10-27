@@ -102,7 +102,7 @@ void init_irq()
     PIC_remap();
     set_idt_descriptor(33, isr_keyboard, 0x8E);
     outb(0x21, ~(1 << 1));
-    __asm__("sti");
+    start_interrupt();
 }
 
 void PIC_remap() 

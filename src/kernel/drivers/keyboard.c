@@ -1,3 +1,5 @@
+#include <alias.h>
+
 #include <kernel/utils/io.h>
 #include <kernel/terminal.h>
 #include <kernel/shit-shell/ss.h>
@@ -35,5 +37,5 @@ void isr_keyboard()
      }
 
      outb(0x20, 0x20);
-     __asm__("sti");
+     start_interrupt();
 }
