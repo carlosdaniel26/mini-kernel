@@ -35,14 +35,10 @@ static inline void gdt_load()
                   mov %%ax, %%gs; \
                   ljmp $0x08, $next; \
                   next:": : : "eax");
-
-    // just a 
-   
 }
 
 void init_gdt()
 {
-
     set_gdt_gate(0, 0, 0, 0, 0);
 
     set_gdt_gate(0, 0, 0, 0, 0);                // Null segment
