@@ -4,6 +4,8 @@
 
 #include <string.h>
 
+#define VIDEO_BUFFER_START 0xB8000
+
 size_t terminal_row;
 size_t terminal_column;
 uint8_t terminal_color;
@@ -20,7 +22,6 @@ void terminal_initialize(void)
 
 	terminal_initialize_buffer();
 	terminal_initialize_background();
-
 }
 
 void terminal_set_column(int index)
@@ -60,7 +61,7 @@ void terminal_clean(void)
 
 void terminal_initialize_buffer(void)
 {
-	terminal_buffer = (uint16_t*) 0xB8000;
+	terminal_buffer = (uint16_t*) VIDEO_BUFFER_START;
 }
 
 void terminal_setcolor(uint8_t color) 
