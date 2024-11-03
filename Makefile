@@ -3,11 +3,14 @@ AS = nasm
 LD = $(CC)
 ARCH = i686
 
-SRC_DIR = ./src
-BUILD_DIR = ./build
+SRC_DIR 	= ./src
+BUILD_DIR 	= ./build
+ISO_DIR 	= ./iso
 INCLUDE_DIR = ./include
 
 OUTPUT_BINARY = $(BUILD_DIR)/myos.bin
+OUTPUT_ISO    = $(BUILD_DIR)/bootable.iso
+
 BOOT_OBJ = $(BUILD_DIR)/boot.o
 
 # Compiler and linker flags
@@ -32,9 +35,14 @@ ALL_OBJ := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, \
 				$(ALL_ASM_SOURCES))
 
 # Main target
-all: build $(OUTPUT_BINARY)
+all: build $(OUTPUT_ISO)
 
-# linking all object files into the final binary output
+# Transform the BIN in a ISO to be acceptable for the bootloader
+$(OUTPUT_ISO): $(OUTPUT_BINARY)
+	grub-mkrescue -o $(OUTPUT_ISO) $(ISO_DIR)
+	cp $(OUTPUT_BINARY) $(ISO_DIR)/boot
+
+# Linking all object files into the final binary output
 $(OUTPUT_BINARY): $(BOOT_OBJ) $(ALL_OBJ)
 	$(LD) $(LDFLAGS) $^ -o $@
 
@@ -75,11 +83,11 @@ debug:
 	$(MAKE)
 	$(MAKE) run-debug
 
-# Alvo para executar o emulador QEMU
+# Target to use QEMU
 run-debug:
-	qemu-system-i386 -kernel $(OUTPUT_BINARY) -no-reboot
+	qemu-system-i386 -cdrom $(OUTPUT_ISO) -no-reboot
 run:
-	qemu-system-i386 -kernel $(OUTPUT_BINARY)
+	qemu-system-i386 -cdrom $(OUTPUT_ISO)
 
 # Alvo PHONY
 .PHONY: all clean run build

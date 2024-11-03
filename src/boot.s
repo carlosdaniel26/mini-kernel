@@ -3,7 +3,7 @@ MBALIGN  equ  1 << 0            ; align loaded modules on page boundaries
 MEMINFO  equ  1 << 1            ; provide memory map
 MBFLAGS  equ  MBALIGN | MEMINFO ; this is the Multiboot 'flag' field
 MAGIC    equ  0x1BADB002        ; 'magic number' lets bootloader find the header
-CHECKSUM equ -(MAGIC + MBFLAGS)   ; checksum of above, to prove we are multiboot
+CHECKSUM equ -(MAGIC + MBFLAGS)	; checksum of above, to prove we are multiboot
 
 ; Declare a multiboot header that marks the program as a kernel. These are magic
 ; values that are documented in the multiboot standard. The bootloader will
@@ -15,6 +15,13 @@ align 4
 	dd MAGIC
 	dd MBFLAGS
 	dd CHECKSUM
+
+	; Tag to ask for the framebuffer
+    dd 0x8                ; Type: Framebuffer
+    dd 32                 ; Size
+    dd 0                  ; Witdh 	(0 to any)
+    dd 0                  ; Height 	(0 to any)
+    dd 0                  ; Depth 	(0 to any)
 
 ; The multiboot standard does not define the value of the stack pointer register
 ; (esp) and it is up to the kernel to provide a stack. This allocates room for a
