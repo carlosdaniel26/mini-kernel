@@ -8,6 +8,7 @@
  * The array is based on the PS/2 Scan Codes 
  *
  * https://techdocs.altium.com/display/FPGA/PS2+Keyboard+Scan+Codes
+ * https://wiki.osdev.org/PS/2_Keyboard
  *
  */
 static const unsigned char convertScancode[] = {
