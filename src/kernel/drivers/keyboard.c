@@ -27,15 +27,12 @@ static const unsigned char convertScancode[] = {
 
 void isr_keyboard() 
 {
+     stop_interrupts();
+
      uint8_t scancode = inb(0x60);
 
-     if (scancode < sizeof(convertScancode)) 
-     {
-          unsigned char character = convertScancode[scancode];
-
-          handler_input_shell(character);
-     }
+     handler_input_shell(scancode);
 
      outb(0x20, 0x20);
-     start_interrupt();
+     start_interrupts();
 }
