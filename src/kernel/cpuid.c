@@ -38,6 +38,20 @@ void cpuid_get_brand()
     cpu.brand_name[12] = '\0';
 }
 
+int cpuid_get_feature(uint64_t feature_id)
+{
+    uint32_t registers[4];
+
+    get_cpuid(0x01, &registers[0]);
+
+
+    /**
+     * ecx = registers[2]
+     * edx = registers[3]
+     */
+    return (feature_id & registers[2] & registers[3]);
+}
+
 void cpuid_print()
 {
     terminal_writestring(cpu.brand_name);
