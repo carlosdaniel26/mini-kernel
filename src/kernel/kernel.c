@@ -22,21 +22,15 @@
 
 int kernel_main(void) 
 {
-	terminal_initialize();
-	terminal_writestring("initializing GDT...!\n");
 	init_gdt();
-	terminal_writestring("initializing IDT...!\n");
 	init_idt();
-	terminal_writestring("initializing IRQs...!\n");
 	init_irq();
-	terminal_clean();
+	terminal_initialize();
 
-	terminal_writestring("Cpu brand: ");
 	cpuid_get_brand();
 	cpuid_print();
 
-	//shit_shell_init();
-	//print_prompt();
+	shit_shell_init();
 
 	while(1) {
 		__asm__("hlt");

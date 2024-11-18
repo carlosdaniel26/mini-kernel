@@ -54,5 +54,7 @@ int cpuid_get_feature(uint64_t feature_id)
 
 void cpuid_print()
 {
+    terminal_writestring("Cpu brand: ");
     terminal_writestring(cpu.brand_name);
+    terminal_writestring("\n");
 }
