@@ -5,6 +5,7 @@
 #include <kernel/terminal.h>
 #include <kernel/gdt.h>
 #include <kernel/idt.h>
+#include <kernel/cpuid.h>
 #include <kernel/drivers/keyboard.h>
 #include <kernel/utils/io.h>
 #include <kernel/shit-shell/ss.h>
@@ -28,10 +29,12 @@ int kernel_main(void)
 	init_idt();
 	terminal_writestring("initializing IRQs...!\n");
 	init_irq();
-	terminal_writestring("Ready!\n");
+	terminal_writestring("Cpu brand: ");
+	cpuid_get_brand();
+	cpuid_print();
 
-	shit_shell_init();
-	print_prompt();
+	//shit_shell_init();
+	//print_prompt();
 
 	while(1) {
 		__asm__("hlt");

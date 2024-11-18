@@ -24,8 +24,6 @@ static inline void gdt_load()
     gdt_ptr.limit = (sizeof(gdt_entry_struct) * 5) - 1;
     gdt_ptr.base = (uint32_t)&gdt_entry;
 
-
-
     // Load the GDT
     asm volatile("lgdt %0" : : "m"(gdt_ptr));
     asm volatile("mov $0x10, %%ax; \
