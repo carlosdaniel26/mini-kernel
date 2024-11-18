@@ -29,6 +29,8 @@ int kernel_main(void)
 	init_idt();
 	terminal_writestring("initializing IRQs...!\n");
 	init_irq();
+	terminal_clean();
+
 	terminal_writestring("Cpu brand: ");
 	cpuid_get_brand();
 	cpuid_print();

@@ -57,6 +57,9 @@ void terminal_initialize_background(void)
 void terminal_clean(void)
 {
 	terminal_initialize_background();
+	terminal_set_row(0);
+	terminal_set_column(0);
+	
 }
 
 void terminal_initialize_buffer(void)
