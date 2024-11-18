@@ -73,6 +73,7 @@ build:
 # Clean build dir
 clean:
 	rm -rf $(BUILD_DIR)
+	rm -rf $(ISO_DIR)/boot/myos.bin
 
 dev:
 	$(MAKE) clean
