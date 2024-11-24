@@ -30,6 +30,11 @@ void print_ammount_mem_mb()
     printf("mem_start: %u\n\n", mem_start);
 }
 
+uint32_t get_page_number(void *ptr)
+{
+    return ((uintptr_t)ptr - (uintptr_t)mem_start) / PAGE_SIZE;
+}
+
 void pmm_init(struct multiboot_info_t* mb_info)
 {
     detect_memory(mb_info);
@@ -69,11 +74,6 @@ void *pmm_alloc_page()
             }
         }
     }
-}
-
-uint32_t get_page_number(void *ptr)
-{
-    return ((uintptr_t)ptr - (uintptr_t)mem_start) / PAGE_SIZE;
 }
 
 void *pmm_free_page(void* ptr)
