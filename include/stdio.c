@@ -74,9 +74,8 @@ int printf(const char* restrict format, ...) {
 				return -1;
 			}
 			
-			unsigned string_size = get_unsigned2string_final_size(number);
-			char str[string_size];
-			memset(str, 0, string_size);
+			char str[64];
+			memset(str, 0, 64);
 
 			unsigned_to_string((uint64_t)number, str);
 			if (!print(&str, sizeof(str)))

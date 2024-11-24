@@ -2,6 +2,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <stdio.h>
+
 #include <multiboot2.h>
 #include <kernel/terminal.h>
 #include <kernel/gdt.h>
@@ -28,14 +30,15 @@ int kernel_main(struct multiboot_info_t* mb_info)
 	init_idt();
 	init_irq();
 	cpuid_get_brand();
-	detect_memory(mb_info);
 
 	terminal_initialize();
 
 	cpuid_print();
+	pmm_init(mb_info);
 	print_ammount_mem_mb();
+	test_pmm();
 
-	shit_shell_init();
+	//shit_shell_init();
 
 	while(1) {
 		__asm__("hlt");
