@@ -5,13 +5,6 @@
 
 // https://www.gnu.org/software/grub/manual/multiboot2/multiboot.html#Boot-information
 
-typedef struct multiboot_memory_map {
-    uint32_t size;
-    uint64_t base_addr;
-    uint64_t length;
-    uint32_t type;
-} __attribute__((packed));
-
 
 struct multiboot_info_t
 {

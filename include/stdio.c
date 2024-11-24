@@ -78,7 +78,7 @@ int printf(const char* restrict format, ...) {
 			memset(str, 0, 64);
 
 			unsigned_to_string((uint64_t)number, str);
-			if (!print(&str, sizeof(str)))
+			if (!print(str, sizeof(str)))
 				return -1;
 			written++;
 

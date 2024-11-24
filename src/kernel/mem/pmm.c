@@ -41,7 +41,7 @@ void pmm_init(struct multiboot_info_t* mb_info)
 
     total_pages = mem_ammount_kb / PAGE_SIZE;
     bitmap_size = total_pages / (8);
-    *mem_bitmap = (uint8_t*)0x100000; // start in 1 MB
+    mem_bitmap = (uint8_t*)0x100000; // start in 1 MB
 
     memset(mem_bitmap, 0, bitmap_size); // init the bitmap
 
@@ -74,9 +74,11 @@ void *pmm_alloc_page()
             }
         }
     }
+    
+    return NULL;
 }
 
-void *pmm_free_page(void* ptr)
+void pmm_free_page(void* ptr)
 {
     uint32_t page_number = get_page_number(ptr);
 
