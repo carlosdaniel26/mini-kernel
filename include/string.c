@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdint.h>
 
 int memcmp(const void* aptr, const void* bptr, size_t size)
 {
@@ -60,4 +61,28 @@ size_t strlen(const char* str)
         len++;
     }
     return len;
+}
+
+void unsigned_to_string(uint64_t value, char *str) 
+{
+    char buffer[20];
+    int i = 0;
+
+    if (value == 0) {
+        str[0] = '0';
+        str[1] = '\0';
+        return;
+    }
+
+    // convert in reverse order
+    while (value > 0) {
+        buffer[i++] = (value % 10) + '0';   // (get last digit), convert to ASCII
+        value /= 10;                        // decrease number by one decimal case 
+    }
+
+    // reverse
+    for (int j = 0; j < i; j++) {
+        str[j] = buffer[i - j - 1];
+    }
+    str[i] = '\0'; // null in the end
 }

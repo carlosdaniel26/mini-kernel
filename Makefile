@@ -14,6 +14,7 @@ OUTPUT_ISO    = $(BUILD_DIR)/bootable.iso
 BOOT_OBJ = $(BUILD_DIR)/boot.o
 
 # Compiler and linker flags
+LIBS = -lgcc
 CFLAGS = -g -std=gnu99 -ffreestanding -Wall -Wextra -I$(INCLUDE_DIR) -D$(ARCH)
 ASFLAGS = -felf32
 LDFLAGS = -T $(SRC_DIR)/linker/linker.ld -ffreestanding -O2 -nostdlib
@@ -39,12 +40,12 @@ all: build $(OUTPUT_ISO)
 
 # Transform the BIN in a ISO to be acceptable for the bootloader
 $(OUTPUT_ISO): $(OUTPUT_BINARY)
-	grub-mkrescue -o $(OUTPUT_ISO) $(ISO_DIR)
 	cp $(OUTPUT_BINARY) $(ISO_DIR)/boot
+	grub-mkrescue -o $(OUTPUT_ISO) $(ISO_DIR)
 
 # Linking all object files into the final binary output
 $(OUTPUT_BINARY): $(BOOT_OBJ) $(ALL_OBJ)
-	$(LD) $(LDFLAGS) $^ -o $@
+	$(LD) $(LDFLAGS) $^ -o $@ $(LIBS)
 
 $(BOOT_OBJ): $(SRC_DIR)/boot.s
 	$(AS) $(ASFLAGS) $< -o $@
@@ -67,6 +68,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.s
 # Create the build DIR and SUBDIRs
 build:
 	mkdir -p $(BUILD_DIR)
+	mkdir -p $(ISO_DIR)/boot/grub
 	@for dir in $(ALL_C_DIRS); do mkdir -p $(BUILD_DIR)/$$dir; done
 	@for dir in $(ALL_ASM_DIRS); do mkdir -p $(BUILD_DIR)/$$dir; done
 

@@ -2,10 +2,12 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <multiboot2.h>
 #include <kernel/terminal.h>
 #include <kernel/gdt.h>
 #include <kernel/idt.h>
 #include <kernel/cpuid.h>
+#include <kernel/mem/pmm.h>
 #include <kernel/drivers/keyboard.h>
 #include <kernel/utils/io.h>
 #include <kernel/shit-shell/ss.h>
@@ -20,15 +22,18 @@
 	#error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
 
-int kernel_main(void) 
+int kernel_main(struct multiboot_info_t* mb_info) 
 {
 	init_gdt();
 	init_idt();
 	init_irq();
+	cpuid_get_brand();
+	detect_memory(mb_info);
+
 	terminal_initialize();
 
-	cpuid_get_brand();
 	cpuid_print();
+	print_ammount_mem_mb();
 
 	shit_shell_init();
 
