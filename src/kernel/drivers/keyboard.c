@@ -1,4 +1,4 @@
-#include <alias.h>
+#include <kernel/utils/alias.h>
 
 #include <kernel/utils/io.h>
 #include <kernel/terminal.h>
