@@ -7,8 +7,10 @@
 #define PAGE_SIZE 4096        // 4 KB pages
 
 uint64_t mem_ammount_mb;
-uint8_t memory_bitmap;
-uint8_t total_blocks;
+uint8_t *mem_bitmap;
+uint8_t *mem_start;
+uint32_t bitmap_size;
+uint8_t total_pages;
 
 void detect_memory(struct multiboot_info_t* mb_info)
 {
@@ -25,4 +27,10 @@ void print_ammount_mem_mb()
     terminal_writestring("mem ammount: ");
     terminal_writestring(str);
     terminal_writestring("\n");
+}
+
+void pmm_init()
+{
+    total_pages = mem_ammount_mb / PAGE_SIZE;
+    bitmap_size = total_pages / 8;
 }
