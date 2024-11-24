@@ -53,6 +53,7 @@ int printf(const char* restrict format, ...) {
 			if (!print(&c, sizeof(c)))
 				return -1;
 			written++;
+
 		} else if (*format == 's') {
 			format++;
 			const char* str = va_arg(parameters, const char*);
@@ -64,7 +65,25 @@ int printf(const char* restrict format, ...) {
 			if (!print(str, len))
 				return -1;
 			written += len;
-		} else {
+			
+		} else if (*format == 'u') {
+			format++;
+			unsigned number = (unsigned) va_arg(parameters, unsigned);
+			if (!maxrem) {
+				// TODO: Set errno to EOVERFLOW.
+				return -1;
+			}
+			
+			unsigned string_size = get_unsigned2string_final_size(number);
+			char str[string_size];
+			memset(str, 0, string_size);
+
+			unsigned_to_string((uint64_t)number, str);
+			if (!print(&str, sizeof(str)))
+				return -1;
+			written++;
+
+		}  else {
 			format = format_begun_at;
 			size_t len = strlen(format);
 			if (maxrem < len) {
