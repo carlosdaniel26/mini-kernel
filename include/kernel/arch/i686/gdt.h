@@ -1,4 +1,4 @@
-#ifdef i686
+#ifdef TARGET_I686
 
 #include <stdint.h>
 

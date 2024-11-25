@@ -1,5 +1,5 @@
-#include <kernel/terminal.h>
-#include <kernel/vga.h>
+#include <kernel/terminal/terminal.h>
+#include <kernel/terminal/vga.h>
 #include <kernel/utils/io.h>
 
 #define ASCII_SPACE 32

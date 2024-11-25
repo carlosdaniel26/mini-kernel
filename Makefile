@@ -1,12 +1,13 @@
 CC = i686-elf-gcc
 AS = nasm
 LD = $(CC)
-ARCH = i686
+ARCH = TARGET_I686
 
 SRC_DIR 	= ./src
 BUILD_DIR 	= ./build
 ISO_DIR 	= ./iso
 INCLUDE_DIR = ./include
+LIBS_DIR	= $(INCLUDE_DIR)/libs
 
 OUTPUT_BINARY = $(BUILD_DIR)/myos.bin
 OUTPUT_ISO    = $(BUILD_DIR)/bootable.iso
@@ -15,7 +16,7 @@ BOOT_OBJ = $(BUILD_DIR)/boot.o
 
 # Compiler and linker flags
 LIBS = -lgcc
-CFLAGS = -g -std=gnu99 -ffreestanding -Wall -Wextra -I$(INCLUDE_DIR) -D$(ARCH)
+CFLAGS = -g -std=gnu99 -ffreestanding -Wall -Wextra -I$(INCLUDE_DIR) -I$(LIBS_DIR) -D$(ARCH)
 ASFLAGS = -felf32
 LDFLAGS = -T $(SRC_DIR)/linker/linker.ld -ffreestanding -O2 -nostdlib
 

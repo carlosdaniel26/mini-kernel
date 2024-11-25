@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 #include <multiboot2.h>
-#include <kernel/terminal.h>
+#include <kernel/terminal/terminal.h>
 #include <kernel/utils/alias.h>
 
 #define PAGE_SIZE 4096        // 4 KB pages

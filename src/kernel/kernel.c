@@ -5,10 +5,10 @@
 #include <stdio.h>
 
 #include <multiboot2.h>
-#include <kernel/terminal.h>
-#include <kernel/gdt.h>
-#include <kernel/idt.h>
-#include <kernel/cpuid.h>
+#include <kernel/terminal/terminal.h>
+#include <kernel/arch/gdt.h>
+#include <kernel/arch/idt.h>
+#include <kernel/cpu/cpuid.h>
 #include <kernel/mem/pmm.h>
 #include <kernel/drivers/keyboard.h>
 #include <kernel/utils/io.h>

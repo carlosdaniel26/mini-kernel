@@ -4,9 +4,9 @@
 #include <string.h>
 
 #include <kernel/utils/alias.h>
-#include <kernel/idt.h>
-#include <kernel/terminal.h>
-#include <kernel/vga.h>
+#include <kernel/arch/idt.h>
+#include <kernel/terminal/terminal.h>
+#include <kernel/terminal/vga.h>
 #include <kernel/drivers/keyboard.h>
 #include <kernel/utils/io.h>
 

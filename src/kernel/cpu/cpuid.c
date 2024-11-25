@@ -1,8 +1,7 @@
 #include <stdint.h>
 
-#include <kernel/cpuid.h>
-#include <kernel/terminal.h>
-#include <cpuid.h>
+#include <kernel/cpu/cpuid.h>
+#include <kernel/terminal/terminal.h>
 #include <string.h>
 
 typedef struct CPUID {

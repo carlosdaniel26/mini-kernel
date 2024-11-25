@@ -1,7 +1,6 @@
 #include <kernel/utils/alias.h>
 
 #include <kernel/utils/io.h>
-#include <kernel/terminal.h>
 #include <kernel/shit-shell/ss.h>
 
 void isr_keyboard() 
