@@ -91,20 +91,3 @@ void pmm_free_page(void* ptr)
     unset_bit(&mem_bitmap[byte_index], bit_index);
 
 }
-
-void test_pmm()
-{
-    uint8_t *ptr_1 = pmm_alloc_page();
-    printf("ptr_1: %u\n", ptr_1);
-
-    uint8_t *ptr_2 = pmm_alloc_page();
-    printf("ptr_2: %u\n", ptr_2);
-
-    uint8_t *ptr_3 = pmm_alloc_page();
-    printf("ptr_3: %u\n", ptr_3);
-
-    pmm_free_page(ptr_2);
-
-    uint8_t *ptr_4 = pmm_alloc_page();
-    printf("ptr_4: %u\n", ptr_4);
-}

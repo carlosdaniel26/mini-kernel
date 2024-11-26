@@ -36,7 +36,6 @@ int kernel_main(struct multiboot_info_t* mb_info)
 	cpuid_print();
 	pmm_init(mb_info);
 	print_ammount_mem_mb();
-	test_pmm();
 
 	//shit_shell_init();
 
