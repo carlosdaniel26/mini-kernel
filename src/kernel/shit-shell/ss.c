@@ -35,9 +35,9 @@ void shit_shell_backspace()
 
 	if (terminal_column >= 6)
 	{
-		terminal_putentryat(' ', VGA_COLOR_WHITE, terminal_get_row()-1, terminal_get_column()-1);
-		terminal_set_column(terminal_column -= 1); 
-		terminal_update_cursor();
+		terminal_set_column(terminal_column - 1);
+		terminal_putchar(' ');
+		terminal_set_column(terminal_column - 1);
 	}
 }
 
