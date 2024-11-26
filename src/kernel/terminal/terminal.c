@@ -1,5 +1,6 @@
 #include <kernel/terminal/terminal.h>
 #include <kernel/terminal/vga.h>
+#include <kernel/shit-shell/ss.h>
 #include <kernel/utils/io.h>
 
 #include <string.h>
@@ -153,4 +154,44 @@ void terminal_update_cursor()
 	outb(0x3D5, (uint8_t) (pos & 0xFF));
 	outb(0x3D4, 0x0E);
 	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+}
+
+void terminal_backspace()
+{
+	int terminal_column = terminal_get_column();
+
+	if (terminal_column >= 0)
+	{
+		terminal_set_column(terminal_column - 1);
+		terminal_putchar(' ');
+		terminal_set_column(terminal_column - 1);
+	}
+}
+
+void terminal_handler_input(char scancode)
+{
+	char key = scancode;
+
+	if (key == 0x0E)
+	{
+		terminal_backspace();
+	}
+	else if (key == 0x1C)
+	{
+		int row = terminal_get_row();
+
+		terminal_set_row(row+1);
+		terminal_set_column(0);
+
+		print_prompt();
+	}
+	else
+	{
+		if ((unsigned)scancode < sizeof(convertScancode)) 
+		{
+			key = convertScancode[(unsigned)scancode];
+	
+			terminal_putchar(key);
+		}
+	}
 }
