@@ -20,7 +20,7 @@ LDFLAGS = -T $(SRC_DIR)/linker/linker.ld -ffreestanding -O2 -nostdlib
 
 # Find ALL C, ASM sources
 ALL_C_SOURCES := $(shell find $(SRC_DIR) $(INCLUDE_DIR) -type f -name '*.c')
-ALL_ASM_SOURCES := $(shell find $(SRC_DIR) -type f -name '*.s')
+ALL_ASM_SOURCES := $(shell find $(SRC_DIR) -type f -name '*.asm')
 
 # Get the DIR list from all the SOURCES
 ALL_C_DIRS := $(sort $(dir $(ALL_C_SOURCES)))
@@ -31,7 +31,7 @@ ALL_OBJ := $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, \
 				$(filter-out $(INCLUDE_DIR)/%, $(ALL_C_SOURCES))) \
 			$(patsubst $(INCLUDE_DIR)/%.c, $(BUILD_DIR)/%.o, \
 				$(filter $(INCLUDE_DIR)/%, $(ALL_C_SOURCES))) \
-			$(patsubst $(SRC_DIR)/%.s, $(BUILD_DIR)/%.o, \
+			$(patsubst $(SRC_DIR)/%.asm, $(BUILD_DIR)/%.o, \
 				$(ALL_ASM_SOURCES))
 
 # Main target
@@ -56,8 +56,8 @@ $(BUILD_DIR)/%.o: $(INCLUDE_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Compile each .s(ASM) found on SRC_DIR recursively to each file .o in BUILD_DIR
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.s
+# Compile each .asm(ASM) found on SRC_DIR recursively to each file .o in BUILD_DIR
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.asm
 	@mkdir -p $(dir $@)
 	$(AS) $(ASFLAGS) $< -o $@
 
