@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-typedef PageDirectory {
+typedef struct PageDirectory {
 	/* bits 0-11 */
 	uint8_t present:      	1;	// is present in memory
 	uint8_t rw:    			1;	// write(1) read(0)
