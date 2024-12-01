@@ -12,8 +12,6 @@ LIBS_DIR	= $(INCLUDE_DIR)/libs
 OUTPUT_BINARY = $(BUILD_DIR)/myos.bin
 OUTPUT_ISO    = $(BUILD_DIR)/bootable.iso
 
-BOOT_OBJ = $(BUILD_DIR)/boot.o
-
 # Compiler and linker flags
 LIBS = -lgcc
 CFLAGS = -g -std=gnu99 -ffreestanding -Wall -Wextra -I$(INCLUDE_DIR) -I$(LIBS_DIR) -D$(ARCH)
@@ -45,11 +43,8 @@ $(OUTPUT_ISO): $(OUTPUT_BINARY)
 	grub-mkrescue -o $(OUTPUT_ISO) $(ISO_DIR)
 
 # Linking all object files into the final binary output
-$(OUTPUT_BINARY): $(BOOT_OBJ) $(ALL_OBJ)
+$(OUTPUT_BINARY): $(ALL_OBJ)
 	$(LD) $(LDFLAGS) $^ -o $@ $(LIBS)
-
-$(BOOT_OBJ): $(SRC_DIR)/boot.s
-	$(AS) $(ASFLAGS) $< -o $@
 
 # Rule for assembling the boot assembly file into an object file
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
