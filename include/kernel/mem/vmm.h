@@ -36,6 +36,6 @@ typedef struct PageTable {
 	uint8_t	available:		4;	// available for use
 
 	/* bits 12-31 */
-	uint8_t address:		20;	// address
+	uint32_t address:		20;	// address
 	
 } PageTable;
