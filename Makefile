@@ -89,7 +89,7 @@ run:
 	qemu-system-i386 -cdrom $(OUTPUT_ISO) -d int -no-reboot
 
 gdb:
-	gdb -tui -ex "target remote :1234" $(OUTPUT_BINARY)
+	gdb -tui -ex "target remote :1234" -x script.gdb
 
 # Alvo PHONY
 .PHONY: all clean run build
