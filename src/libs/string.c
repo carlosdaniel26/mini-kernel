@@ -87,7 +87,7 @@ void unsigned_to_string(uint64_t value, char *str)
     str[i] = '\0'; // null in the end
 }
 
-unsigned get_unsigned2string_final_size(uint64_t value)
+unsigned get_unsigned2string_final_size(unsigned value)
 {
     unsigned i = 0;
     

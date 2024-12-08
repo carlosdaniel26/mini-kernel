@@ -73,9 +73,9 @@ int printf(const char* restrict format, ...) {
 				// TODO: Set errno to EOVERFLOW.
 				return -1;
 			}
-			
-			char str[64];
-			memset(str, 0, 64);
+			uint32_t size = get_unsigned2string_final_size(number);
+			char str[size];
+			memset(str, 0, sizeof(str));
 
 			unsigned_to_string((uint64_t)number, str);
 			if (!print(str, sizeof(str)))
