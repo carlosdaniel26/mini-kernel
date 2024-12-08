@@ -84,9 +84,12 @@ debug:
 
 # Target to use QEMU
 run-debug:
-	qemu-system-i386 -cdrom $(OUTPUT_ISO) -no-reboot
+	qemu-system-i386 -s -S -cdrom $(OUTPUT_ISO) -no-reboot -d int -D qemu_log.txt
 run:
-	qemu-system-i386 -cdrom $(OUTPUT_ISO)
+	qemu-system-i386 -cdrom $(OUTPUT_ISO) -d int -no-reboot
+
+gdb:
+	gdb -tui -ex "target remote :1234" $(OUTPUT_BINARY)
 
 # Alvo PHONY
 .PHONY: all clean run build
