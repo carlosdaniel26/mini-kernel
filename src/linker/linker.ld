@@ -49,4 +49,6 @@ SECTIONS
 	   a segment with the same name. Simply add stuff here as needed. */
 
 	kernel_end = .;
+
+	kernel_size = kernel_start - kernel_end;
 }
