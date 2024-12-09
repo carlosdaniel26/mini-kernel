@@ -11,15 +11,21 @@ align 4
 	dd MAGIC
 	dd MBFLAGS
 	dd CHECKSUM
+	dd 0, 0, 0, 0, 0
+
+	dd 0
+	dd 800
+	dd 600
+	dd 32
 
 ; Stack
 section .bss
 	align 16
 	stack_bottom:
-		resb 16384 ; 16 KiB 
-	stack_top: ; after the 16 kib reserved for the stack
+		resb 16384 * 8; 128 KiB 
+	stack_top: ; after the 128 kib reserved for the stack
 
-section .text
+section .boot
 global _start
 _start:
 	; configure stack
