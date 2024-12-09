@@ -92,7 +92,7 @@ unsigned get_unsigned2string_final_size(unsigned value)
     unsigned i = 0;
     
     if (value == 0)
-        return 0;
+        return 1;
 
     while (value > 0)
     {
