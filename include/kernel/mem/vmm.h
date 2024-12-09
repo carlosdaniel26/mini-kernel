@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#include <multiboot2.h>
+
 typedef struct PageDirectory {
 	/* bits 0-11 */
 	uint8_t present:      	1;	// is present in memory
@@ -39,3 +41,6 @@ typedef struct PageTable {
 	uint32_t address:		20;	// address
 	
 } PageTable;
+
+void fill_table(struct multiboot_info_t* mb_info);
+void init_paging(struct multiboot_info_t* mb_info);

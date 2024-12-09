@@ -10,6 +10,7 @@
 #include <kernel/arch/idt.h>
 #include <kernel/cpu/cpuid.h>
 #include <kernel/mem/pmm.h>
+#include <kernel/mem/vmm.h>
 #include <kernel/drivers/keyboard.h>
 #include <kernel/utils/io.h>
 #include <kernel/shit-shell/ss.h>
@@ -24,6 +25,10 @@
 	#error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
 
+extern uint32_t kernel_start;
+extern uint32_t kernel_end;
+extern uint32_t kernel_size;
+
 int kernel_main(struct multiboot_info_t* mb_info) 
 {
 	init_gdt();
@@ -35,12 +40,16 @@ int kernel_main(struct multiboot_info_t* mb_info)
 
 	cpuid_print();
 	pmm_init(mb_info);
-	print_ammount_mem_mb();
+
+	printf("address: %u\n", &mb_info->mmap_addr);
+	printf("kernel_start: %u\n", kernel_start);
+
+	init_paging(mb_info);
 
 	//shit_shell_init();
 
 	while(1) {
-		__asm__("hlt");
+		
 	}
 
 	return 1;
