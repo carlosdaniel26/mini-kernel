@@ -77,10 +77,14 @@ void init_idt(void)
     ptr_idt.base  = (uint32_t)&idt[0];
     ptr_idt.limit = sizeof(idt_entry_struct) * IDT_ENTRIES - 1;
 
+    for (uint8_t i = 0; i < 34; i++) {
+        isr_stub_table[i] = NULL;
+    }
+
     isr_stub_table[0] = isr_stub_divide_by_zero;
     isr_stub_table[6] = isr_stub_invalid_opcode;
     isr_stub_table[14] = isr_stub_page_fault;
-    isr_stub_table[14] = isr_keyboard;
+    isr_stub_table[34] = isr_keyboard;
 
     set_idt_descriptor(0, isr_stub_table[0], 0x8E);
     set_idt_descriptor(6, isr_stub_table[6], 0x8E);
@@ -88,20 +92,19 @@ void init_idt(void)
 
     __asm__("lidt %0" : : "m"(ptr_idt));
 
-    for (uint8_t vector = 0; vector < 32; vector++)
+    for (uint8_t vector = 0; vector < 34; vector++)
     {
         if (isr_stub_table[vector] != NULL) {
             set_idt_descriptor(vector, isr_stub_table[vector], 0x8E); // 0x8E = interrupt gate
             vectors[vector] = true;
         }
     }
-
 }
 
 void init_irq() 
 {
     PIC_remap();
-    set_idt_descriptor(33, isr_keyboard, 0x8E);
+    set_idt_descriptor(33, isr_stub_table[34], 0x8E);
     outb(0x21, ~(1 << 1));
     start_interrupts();
 }
