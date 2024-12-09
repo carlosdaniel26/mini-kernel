@@ -5,12 +5,12 @@
 
 void isr_keyboard() 
 {
-     stop_interrupts();
+	stop_interrupts();
 
-     uint8_t scancode = inb(0x60);
+	uint8_t scancode = inb(0x60);
 
-     terminal_handler_input(scancode);
+	terminal_handler_input(scancode);
 
-     outb(0x20, 0x20);
-     start_interrupts();
+	outb(0x20, 0x20);
+	start_interrupts();
 }
