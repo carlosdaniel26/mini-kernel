@@ -149,6 +149,4 @@ void process_memory_map(const struct multiboot_info_t *mb_info)
 		// i++
 		ptr_mmap = (struct mmap_entry_t*)((uintptr_t)ptr_mmap + ptr_mmap->size + sizeof(ptr_mmap->size));
 	}
-
-	while(1){}
 }
