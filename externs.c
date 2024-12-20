@@ -1,24 +1,3 @@
-#include <stdint.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <string.h>
-
-#include <kernel/utils/alias.h>
-#include <kernel/arch/idt.h>
-#include <kernel/terminal/terminal.h>
-#include <kernel/terminal/vga.h>
-#include <kernel/drivers/keyboard.h>
-#include <kernel/utils/io.h>
-#include <kernel/cpu/isr.h>
-#include <kernel/cpu/pic.h>
-
-#define IDT_ENTRIES 256
-
-idt_entry_struct idt[IDT_ENTRIES];
-idt_ptr_struct ptr_idt;
-
-bool vectors[IDT_ENTRIES];
-
 extern void stub_0();
 extern void stub_1();
 extern void stub_2();
@@ -275,31 +254,3 @@ extern void stub_252();
 extern void stub_253();
 extern void stub_254();
 extern void stub_255();
-
-void set_idt_descriptor(uint8_t vector, void (*isr)(), uint8_t flags)
-{
-    idt_entry_struct* descriptor = &idt[vector];
-
-    descriptor->base_low  = (uint32_t)isr & 0xFFFF; // Get just the first 16 bits
-    descriptor->selector  = 0x08;
-    descriptor->flags     = flags;
-    descriptor->base_high = ((uint32_t)isr >> 16) & 0xFFFF;
-    descriptor->always0   = 0;
-}
-
-void init_idt(void)
-{
-    PIC_remap();
-    
-    ptr_idt.base  = (uint32_t)&idt[0];
-    ptr_idt.limit = sizeof(idt_entry_struct) * IDT_ENTRIES - 1;
-
-
-    // Set IDT descriptors
-    set_idt_descriptor(0,  stub_0,  0x8E);
-    set_idt_descriptor(6,  stub_6,  0x8E);
-    set_idt_descriptor(14, stub_14, 0x8E);
-    set_idt_descriptor(33, stub_33, 0x8E);
-
-    __asm__("lidt %0" : : "m"(ptr_idt));
-}

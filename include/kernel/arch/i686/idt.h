@@ -17,7 +17,5 @@ typedef struct idt_ptr_struct {
 
 void init_idt(void);
 void set_idt_descriptor(uint8_t vector, void (*isr)(), uint8_t flags);
-void init_irq();
-void PIC_remap();
 
 #endif

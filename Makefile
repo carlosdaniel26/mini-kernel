@@ -86,7 +86,7 @@ debug:
 run-debug:
 	qemu-system-i386 -s -S -cdrom $(OUTPUT_ISO) -no-reboot -d int -D qemu_log.txt
 run:
-	qemu-system-i386 -cdrom $(OUTPUT_ISO) -d int -no-reboot
+	qemu-system-i386 -cdrom $(OUTPUT_ISO) -no-reboot -d int -D qemu_log.txt
 
 gdb:
 	gdb -tui -ex "target remote :1234" -x script.gdb

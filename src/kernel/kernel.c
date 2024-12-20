@@ -9,6 +9,7 @@
 #include <kernel/arch/gdt.h>
 #include <kernel/arch/idt.h>
 #include <kernel/cpu/cpuid.h>
+#include <kernel/cpu/pic.h>
 #include <kernel/mem/pmm.h>
 #include <kernel/mem/vmm.h>
 #include <kernel/drivers/keyboard.h>
@@ -44,9 +45,10 @@ int kernel_main(struct multiboot_info_t* mb_info)
 	printf("address: %u\n", &mb_info->mmap_addr);
 	printf("kernel_start: %u\n", kernel_start);
 
-	init_paging(mb_info);
+	//init_paging(mb_info);
 
 	//shit_shell_init();
+	asm volatile("sti");
 
 	while(1) {
 		
